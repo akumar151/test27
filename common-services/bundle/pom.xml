@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+
+    <!-- ============================ -->
+    <!-- BATO Common Services Bundle  -->
+    <!-- ============================ -->
+    <name>BATO Common Services Bundle</name>
+    <packaging>bundle</packaging>
+    <artifactId>bato-common-services-bundle</artifactId>
+     <!-- This inherited parent pom project which this bundle implements    -->
+    <parent>
+        <groupId>com.bato.common.services</groupId>
+        <artifactId>bato-common-services</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- =========================================== -->
+    <!-- BATO Common Services Bundle Install Package -->
+    <!-- =========================================== -->
+    <profiles>
+        <profile>
+            <id>autoInstallBundle</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-bundle</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                                <configuration>
+                                    <slingUrl>${osgi.serviceUrl}</slingUrl>
+                                    <user>${crx.username}</user>
+                                    <password>${crx.password}</password>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- ================================================= -->
+    <!-- BATO Common Services Bundle Dependency References -->
+    <!-- ================================================= -->
+    <dependencies>
+        <!-- AEM 6.3 Dependencies: Ticket BATO-76-->
+        <dependency>
+            <groupId>com.adobe.aem</groupId>
+            <artifactId>uber-jar</artifactId>
+            <classifier>apis</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-atinject_1.0_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.commons.osgi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+         <!-- Migration start  -->
+        <dependency>
+            <groupId>org.apache.jackrabbit</groupId>
+            <artifactId>jackrabbit-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jackrabbit</groupId>
+            <artifactId>jackrabbit-jcr-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.jcr.api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jcr</groupId>
+            <artifactId>jcr</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.jcr.resource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.commons.json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxrpc-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-tagging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq.dam</groupId>
+            <artifactId>cq-dam-api</artifactId>
+        </dependency>
+        
+        <!--  <dependency>
+		    <groupId>com.diffplug.osgi</groupId>
+		    <artifactId>com.diffplug.osgi.extension.sun.misc</artifactId>
+		</dependency> -->
+         <!-- Migration end  -->
+
+        <dependency>
+            <groupId>com.day.cqse</groupId>
+            <artifactId>cqse-httpservice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-search</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-rewriter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.commons</groupId>
+            <artifactId>day-commons-text</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-mailer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+
+         <!-- TWILIO's dependencies starts  -->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio-java-sdk</artifactId>
+        </dependency>
+
+         <!-- HttpComponents  -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+        </dependency>
+
+         <!-- Commons  -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+         <!-- Jackson  -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+         <!-- TWILIO's dependencies ends  -->
+
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.models.api</artifactId>
+        </dependency>
+        <!-- Removed for AEM 6.3 Migration
+        <dependency>
+            <groupId>com.adobe.aem</groupId>
+            <artifactId>aem-api</artifactId>
+        </dependency>-->
+
+        <!-- SFTPService DEPENDENCIES -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jzlib</artifactId>
+        </dependency>
+
+        <!-- CSVService DEPENDENCIES -->
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+        </dependency>
+
+		<!-- BEAN UTILS -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+        <!-- Link Remover uses this -->
+        <dependency>
+            <groupId>org.apache.cocoon</groupId>
+            <artifactId>cocoon-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <!-- ============================================= -->
+    <!-- BATO Common Services Bundle Build & Packaging -->
+    <!-- ============================================= -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>bundle</supportedProjectType>
+                    </supportedProjectTypes>
+                    <instructions>
+                        <bundle-SymbolicName>com.bato.common.services.bato-common-services-bundle</bundle-SymbolicName>
+                        <Export-Package>
+                            org.json.simple.*,com.twilio.sdk.*,com.bridgestone.consumer.services.maps.*
+                        </Export-Package>
+                        <Import-Package>*</Import-Package>
+                        <Embed-Dependency>gson,opencsv,json-simple,commons-beanutils,twilio-java-sdk,httpclient,jackson-mapper-asl,commons-lang3,httpcore,jackson-core-asl,jsi,trove4j,jsch,jzlib</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Sling-Test-Regexp>.*Test</Sling-Test-Regexp>
+                        <Sling-Model-Packages>com.bato.sling.model</Sling-Model-Packages>
+                    </instructions>
+                </configuration>
+            </plugin>
+
+            <!-- Service Component Runtime for OSGi Scanning -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-scr-descriptor</id>
+                        <goals>
+                            <goal>scr</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>maven-sling-plugin</artifactId>
+                <configuration>
+                    <slingUrl>http://${crx.host}:${crx.port}/apps/bato/common-services/install</slingUrl>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

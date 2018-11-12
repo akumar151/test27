@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+
+    <!-- ============================ -->
+    <!-- BATO Common Services Project -->
+    <!-- ============================ -->
+
+    <name>BATO Common Services</name>
+    <packaging>pom</packaging>  <!-- A "pom" package aggregates the build of a set of projects by listing them as modules -->
+    <groupId>com.bato.common.services</groupId>
+    <artifactId>bato-common-services</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ================================= -->
+    <!-- Ensure Maven version is adequate. -->
+    <!-- ================================= -->
+    <prerequisites>
+        <maven>3.0.2</maven>
+    </prerequisites>
+
+    <!-- =========================================== -->
+    <!-- BATO Common Services Children POM Projects  -->
+    <!-- Note: This scans sub-folders for other poms -->
+    <!-- =========================================== -->
+    <modules>
+        <module>bundle</module>
+    </modules>
+
+    <!-- ======================================= -->
+    <!-- BATO Common Services Project Properties -->
+    <!-- NOTE: This are overwritten by profiles  -->
+    <!-- ======================================= -->
+    <properties>
+        <crx.username>admin</crx.username>
+        <crx.password>admin</crx.password>
+        <crx.host>localhost</crx.host>
+        <crx.port>4502</crx.port>
+        <crx.serviceUrl>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</crx.serviceUrl>
+        <osgi.serviceUrl>http://${crx.host}:${crx.port}/system/console/install</osgi.serviceUrl>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <!-- ===================================== -->
+    <!-- BATO Common Services Project Profiles -->
+    <!-- ===================================== -->
+    <profiles>
+        <profile>
+            <id>QA4-AUTHOR</id>
+            <properties>
+                <crx.host>qa4.firestonetire.com</crx.host>
+                <crx.port>4502</crx.port>
+                <crx.username>admin</crx.username>
+                <crx.password>R@z0rf!shB@t0</crx.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>QA4-PUBLISH</id>
+            <properties>
+                <crx.host>qa4.firestonetire.com</crx.host>
+                <crx.port>4503</crx.port>
+                <crx.username>admin</crx.username>
+                <crx.password>R@z0rf!shB@t0</crx.password>
+            </properties>
+        </profile>
+     </profiles>
+
+    <!-- ========================================= -->
+    <!-- BATO Common Services Project Repositories -->
+    <!-- ========================================= -->
+    <repositories>
+        <repository>
+            <id>adobe-public-releases</id>
+            <name>Adobe Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <!-- ================================================ -->
+    <!-- BATO Common Services Project Plugin Repositories -->
+    <!-- ================================================ -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>adobe-public-releases</id>
+            <name>Adobe Public Repository</name>
+            <url>http://repo.adobe.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+           <id>maven2-repository</id>
+           <name>Mirror repository for maven plugin artifacts</name>
+           <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+    <!-- ========================================= -->
+    <!-- BATO Common Services Project Dependencies -->
+    <!-- ========================================= -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- AEM 6.3 Dependencies: Ticket BATO-76 START -->
+            <dependency>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>uber-jar</artifactId>
+                <version>6.3.0</version>
+                <classifier>apis</classifier>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-atinject_1.0_spec</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            <!-- <dependency>
+			    <groupId>com.diffplug.osgi</groupId>
+			    <artifactId>com.diffplug.osgi.extension.sun.misc</artifactId>
+			    <version>0.0.0</version>
+			</dependency> -->
+			
+			<!-- AEM 6.3 Dependencies: Ticket BATO-76 END  -->
+            <dependency>
+                <groupId>com.day.cq</groupId>
+                <artifactId>cq-quickstart-product-dependencies</artifactId>
+                <version>5.6.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+                <exclusions>
+                    <!-- overridden below to avoid but with incompatible scr maven plugin -->
+                    <exclusion>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>org.apache.felix.scr.annotations</artifactId>
+                    </exclusion>
+                    <!-- overridden below with newer version -->
+                    <exclusion>
+			            <groupId>org.apache.sling</groupId>
+			            <artifactId>org.apache.sling.api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+			<dependency>
+				<groupId>com.adobe.cq.commerce</groupId>
+				<artifactId>cq-commerce-core</artifactId>
+				<version>5.15.48</version>
+				<scope>provided</scope>
+			</dependency>
+            <dependency>
+                <groupId>com.day.cq</groupId>
+                <artifactId>cq-commons</artifactId>
+                <version>5.6.4</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.day.cq.wcm</groupId>
+                <artifactId>cq-wcm-api</artifactId>
+                <version>5.6.6</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.day.cq</groupId>
+                <artifactId>cq-tagging</artifactId>
+                <version>5.6.4</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.day.cq.dam</groupId>
+                <artifactId>cq-dam-api</artifactId>
+                <version>5.6.6</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr.annotations</artifactId>
+                <version>1.9.12</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.api</artifactId>
+                <version>2.3.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.jcr.resource</artifactId>
+                <version>2.2.8</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.jcr.api</artifactId>
+                <version>2.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>jackrabbit-core</artifactId>
+                <version>2.7.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>jackrabbit-jcr-commons</artifactId>
+                <version>2.7.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.jcr</groupId>
+                <artifactId>jcr</artifactId>
+                <version>2.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml</groupId>
+                <artifactId>jaxrpc-api</artifactId>
+                <version>1.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.2.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.day.cqse</groupId>
+                <artifactId>cqse-httpservice</artifactId>
+                <version>4.1.52</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.2.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.json-simple</groupId>
+                <artifactId>json-simple</artifactId>
+                <version>1.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- TWILIO's dependencies starts -->
+    	    <dependency>
+    			<groupId>com.twilio.sdk</groupId>
+    			<artifactId>twilio-java-sdk</artifactId>
+    			<version>4.0.0</version>
+    			<scope>compile</scope>
+    		</dependency>
+
+    		<!-- HttpComponents -->
+    		<dependency>
+    			<groupId>org.apache.httpcomponents</groupId>
+    			<artifactId>httpclient</artifactId>
+    			<version>4.2.6</version>
+    		</dependency>
+
+    		<dependency>
+    			<groupId>org.apache.httpcomponents</groupId>
+    			<artifactId>httpcore</artifactId>
+    			<version>4.2.5</version>
+    		</dependency>
+
+    		<!-- Apache HTTP Commons -->
+    		<dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.3.2</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.4</version>
+                <scope>provided</scope>
+            </dependency>
+
+    		<!-- Jackson -->
+    		<dependency>
+    			<groupId>org.codehaus.jackson</groupId>
+    			<artifactId>jackson-core-asl</artifactId>
+    			<version>1.9.3</version>
+    		</dependency>
+
+    		<dependency>
+    			<groupId>org.codehaus.jackson</groupId>
+    			<artifactId>jackson-mapper-asl</artifactId>
+    			<version>1.9.3</version>
+    		</dependency>
+    		<!-- TWILIO's dependencies ends -->
+
+            <!-- These are provided by AEM, but are needed to compile -->
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.models.api</artifactId>
+                <version>1.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.models.impl</artifactId>
+                <version>1.1.0</version>
+                <scope>provided</scope>
+             </dependency>
+            <!-- Removed for AEM 6.3 Migration
+            <dependency>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>aem-api</artifactId>
+                <version>6.0.0.1</version>
+                <scope>provided</scope>
+            </dependency>-->
+
+            <!-- SFTPService DEPENDENCIES -->
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>0.1.51</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jzlib</artifactId>
+                <version>1.1.3</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- CSVService DEPENDENCIES -->
+            <dependency>
+                <groupId>net.sf.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>2.3</version>
+                <scope>compile</scope>
+            </dependency>
+
+			<!-- BEAN UTILS -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+	            <version>1.8.3</version>
+			</dependency>
+
+            <!-- Link Remover uses this -->
+            <dependency>
+                <groupId>org.apache.cocoon</groupId>
+                <artifactId>cocoon-xml</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- ============================================== -->
+    <!-- BATO Common Services Project Build & Packaging -->
+    <!-- ============================================== -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>1.20.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.sling</groupId>
+                    <artifactId>maven-sling-plugin</artifactId>
+                    <version>2.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.day.jcr.vault</groupId>
+                    <artifactId>content-package-maven-plugin</artifactId>
+                    <version>0.0.20</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
